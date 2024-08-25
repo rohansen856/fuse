@@ -1,4 +1,4 @@
-package main
+package commentsTest
 
 import (
 	"bytes"
@@ -10,11 +10,12 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/ritankarsaha/backend/controllers"
+	"github.com/ritankarsaha/backend/models"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
-
-// Mock data and variables
 var commentCollection = setupMockCommentCollection()
 
 func setupMockCommentCollection() *MockCommentCollection {
@@ -25,40 +26,55 @@ func setupMockCommentCollection() *MockCommentCollection {
 type MockCommentCollection struct{}
 
 func (m *MockCommentCollection) InsertOne(ctx context.Context, comment interface{}) (interface{}, error) {
-	return nil, nil // Simulate successful insert
+	return &mongo.InsertOneResult{InsertedID: primitive.NewObjectID()}, nil
 }
 
 func (m *MockCommentCollection) Find(ctx context.Context, filter interface{}) (*MockCursor, error) {
-	return &MockCursor{}, nil // Simulate successful find
+	return &MockCursor{}, nil
 }
 
-func (m *MockCommentCollection) DeleteOne(ctx context.Context, filter interface{}) (*DeleteResult, error) {
-	return &DeleteResult{DeletedCount: 1}, nil // Simulate successful delete
+func (m *MockCommentCollection) DeleteOne(ctx context.Context, filter interface{}) (*mongo.DeleteResult, error) {
+	return &mongo.DeleteResult{DeletedCount: 1}, nil
 }
 
 type MockCursor struct{}
 
 func (mc *MockCursor) All(ctx context.Context, results interface{}) error {
-	return nil // Simulate successful cursor operation
+	*results.(*[]models.Comment) = append(*results.(*[]models.Comment), models.Comment{
+		ID:        primitive.NewObjectID(),
+		NewsID:    primitive.NewObjectID(),
+		Content:   "This is a test comment",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	})
+	return nil
 }
 
 func (mc *MockCursor) Close(ctx context.Context) error {
-	return nil // Simulate cursor close
+	return nil
 }
 
-type DeleteResult struct {
-	DeletedCount int64
+func (mc *MockCursor) Next(ctx context.Context) bool {
+	return false
+}
+
+func (mc *MockCursor) Decode(val interface{}) error {
+	return nil
+}
+
+func (mc *MockCursor) Err() error {
+	return nil
 }
 
 func TestCreateComment(t *testing.T) {
 	router := gin.Default()
-	router.POST("/comments", CreateComment)
+	router.POST("/comments", controllers.CreateComment)
 
-	comment := map[string]interface{}{
-		"post_id":   primitive.NewObjectID(),
-		"content":   "This is a test comment",
-		"user_id":   primitive.NewObjectID(),
-		"user_name": "Test User",
+	comment := models.Comment{
+		NewsID:    primitive.NewObjectID(),
+		Content:   "This is a test comment",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 
 	body, _ := json.Marshal(comment)
@@ -73,10 +89,10 @@ func TestCreateComment(t *testing.T) {
 
 func TestGetCommentsByNewsID(t *testing.T) {
 	router := gin.Default()
-	router.GET("/news/:newsID/comments", GetCommentsByNewsID)
+	router.GET("/comments/:newsID", controllers.GetCommentsByNewsID)
 
 	newsID := primitive.NewObjectID().Hex()
-	req, _ := http.NewRequest("GET", "/news/"+newsID+"/comments", nil)
+	req, _ := http.NewRequest("GET", "/comments/"+newsID, nil)
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
@@ -86,7 +102,7 @@ func TestGetCommentsByNewsID(t *testing.T) {
 
 func TestDeleteComment(t *testing.T) {
 	router := gin.Default()
-	router.DELETE("/comments/:commentID", DeleteComment)
+	router.DELETE("/comments/:commentID", controllers.DeleteComment)
 
 	commentID := primitive.NewObjectID().Hex()
 	req, _ := http.NewRequest("DELETE", "/comments/"+commentID, nil)
@@ -96,4 +112,3 @@ func TestDeleteComment(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 }
-
