@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 package commentsTest
+=======
+package controllers
+>>>>>>> Stashed changes
 
 import (
 	"bytes"
@@ -8,7 +12,6 @@ import (
 	"net/http/httptest"
 	"testing"
 	"time"
-
 	"github.com/gin-gonic/gin"
 	"github.com/ritankarsaha/backend/controllers"
 	"github.com/ritankarsaha/backend/models"
