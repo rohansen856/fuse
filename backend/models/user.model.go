@@ -17,4 +17,5 @@ type User struct {
 	UpdatedAt     time.Time          `json:"updated_at"`
 	RefreshToken  *string            `json:"refresh_token" bson:"refresh_token"`
 	Preference    *string            `json:"preference"`
+    Address		  *string 			 `json:"address,omitempty"`
 }
