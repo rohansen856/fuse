@@ -1,10 +1,8 @@
-import { getServerSession } from "next-auth/next"
 import * as z from "zod"
 
-import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { RequiresProPlanError } from "@/lib/exceptions"
-import { getUserSubscriptionPlan } from "@/lib/subscription"
+import { getCurrentUser } from "@/lib/session"
 
 const postCreateSchema = z.object({
   title: z.string(),
@@ -13,14 +11,14 @@ const postCreateSchema = z.object({
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await getCurrentUser()
 
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    const { user } = session
-    const posts = await db.post.findMany({
+    const user = session
+    const posts = await db.news.findMany({
       select: {
         id: true,
         title: true,
@@ -28,7 +26,7 @@ export async function GET() {
         createdAt: true,
       },
       where: {
-        authorId: user.id,
+        publisher: user.id,
       },
     })
 
@@ -40,37 +38,23 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await getCurrentUser()
 
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    const { user } = session
-    const subscriptionPlan = await getUserSubscriptionPlan(user.id)
-
-    // If user is on a free plan.
-    // Check if user has reached limit of 3 posts.
-    if (!subscriptionPlan?.isPro) {
-      const count = await db.post.count({
-        where: {
-          authorId: user.id,
-        },
-      })
-
-      if (count >= 3) {
-        throw new RequiresProPlanError()
-      }
-    }
+    const user = session
 
     const json = await req.json()
     const body = postCreateSchema.parse(json)
 
-    const post = await db.post.create({
+    const post = await db.news.create({
       data: {
         title: body.title,
-        content: body.content,
-        authorId: session.user.id,
+        content: body.content || "",
+        category: "",
+        publisher: user.id,
       },
       select: {
         id: true,

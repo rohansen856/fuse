@@ -1,9 +1,13 @@
-import { getServerSession } from "next-auth/next"
-
-import { authOptions } from "@/lib/auth"
+import { cookies } from "next/headers"
 
 export async function getCurrentUser() {
-  const session = await getServerSession(authOptions)
+  const user = cookies().get("user")?.value
+  const session = (user ? JSON.parse(user) : null) as {
+    id: string
+    email: string
+    name: string
+    image: string
+  } | null
 
-  return session?.user
+  return session
 }
