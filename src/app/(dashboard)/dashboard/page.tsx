@@ -17,12 +17,12 @@ export default async function DashboardPage() {
   const user = await getCurrentUser()
 
   if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login")
+    // redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  const posts = await db.post.findMany({
+  const posts = await db.news.findMany({
     where: {
-      authorId: user.id,
+      publisher: user?.id,
     },
     select: {
       id: true,

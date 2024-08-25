@@ -5,12 +5,13 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import EditorJS from "@editorjs/editorjs"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Post } from "@prisma/client"
+import { News } from "@prisma/client"
 import { useForm } from "react-hook-form"
 import TextareaAutosize from "react-textarea-autosize"
 import * as z from "zod"
 
 import "@/styles/editor.css"
+
 import { cn } from "@/lib/utils"
 import { postPatchSchema } from "@/lib/validations/post"
 import { buttonVariants } from "@/components/ui/button"
@@ -18,7 +19,7 @@ import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
 interface EditorProps {
-  post: Pick<Post, "id" | "title" | "content" | "published">
+  post: Pick<News, "id" | "title" | "content" | "published">
 }
 
 type FormData = z.infer<typeof postPatchSchema>
@@ -150,7 +151,7 @@ export function Editor({ post }: EditorProps) {
             autoFocus
             id="title"
             defaultValue={post.title}
-            placeholder="Post title"
+            placeholder="News title"
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
             {...register("title")}
           />

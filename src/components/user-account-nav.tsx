@@ -1,29 +1,37 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { User } from "next-auth"
-import { signOut } from "next-auth/react"
 
+import { absoluteUrl } from "@/lib/utils"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { UserAvatar } from "@/components/user-avatar"
+
+import { Icons } from "./icons"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "image" | "email">
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
+  const [isLoading, setLoading] = useState(false)
+  const router = useRouter()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <UserAvatar
           user={{ name: user.name || null, image: user.image || null }}
-          className="h-8 w-8"
+          className="size-8 bg-secondary"
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
@@ -42,7 +50,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           <Link href="/dashboard">Dashboard</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/billing">Billing</Link>
+          <Link href="/admin">Admin</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/dashboard/settings">Settings</Link>
@@ -50,13 +58,17 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer"
-          onSelect={(event) => {
+          onSelect={async (event) => {
             event.preventDefault()
-            signOut({
-              callbackUrl: `${window.location.origin}/login`,
+            setLoading(true)
+            await fetch(absoluteUrl("/api/auth/signout"), {
+              method: "GET",
             })
+            router.push("/")
           }}
+          disabled={isLoading}
         >
+          {isLoading && <Icons.spinner className="mr-4 size-4 animate-spin" />}
           Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>

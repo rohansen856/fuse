@@ -1,8 +1,8 @@
-import { getServerSession } from "next-auth"
 import * as z from "zod"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { getCurrentUser } from "@/lib/session"
 import { postPatchSchema } from "@/lib/validations/post"
 
 const routeContextSchema = z.object({
@@ -25,7 +25,7 @@ export async function DELETE(
     }
 
     // Delete the post.
-    await db.post.delete({
+    await db.news.delete({
       where: {
         id: params.postId as string,
       },
@@ -60,7 +60,7 @@ export async function PATCH(
 
     // Update the post.
     // TODO: Implement sanitization for content.
-    await db.post.update({
+    await db.news.update({
       where: {
         id: params.postId,
       },
@@ -81,11 +81,11 @@ export async function PATCH(
 }
 
 async function verifyCurrentUserHasAccessToPost(postId: string) {
-  const session = await getServerSession(authOptions)
-  const count = await db.post.count({
+  const session = await getCurrentUser()
+  const count = await db.news.count({
     where: {
       id: postId,
-      authorId: session?.user.id,
+      publisher: session?.id,
     },
   })
 
