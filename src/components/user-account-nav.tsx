@@ -17,6 +17,7 @@ import {
 import { UserAvatar } from "@/components/user-avatar"
 
 import { Icons } from "./icons"
+import { ConnectMetamask } from "./metamask"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "image" | "email">
@@ -25,6 +26,7 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 export function UserAccountNav({ user }: UserAccountNavProps) {
   const [isLoading, setLoading] = useState(false)
   const router = useRouter()
+  const address = window.localStorage.getItem("address")
 
   return (
     <DropdownMenu>
@@ -54,6 +56,11 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/dashboard/settings">Settings</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <span>
+            {address ? address.slice(1, 10) + "..." : <ConnectMetamask />}
+          </span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
