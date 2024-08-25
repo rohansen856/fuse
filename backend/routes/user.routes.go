@@ -7,4 +7,5 @@ import (
 
 func UserRoutes(router *gin.Engine) {
 	router.GET("/user/:user_id", controllers.GetUser())
+	router.PATCH("/user/:user_id", controllers.UpdateUser())
 }

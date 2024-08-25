@@ -1,4 +1,4 @@
-package commentsTest
+package main
 
 import (
 	"bytes"
@@ -8,7 +8,6 @@ import (
 	"net/http/httptest"
 	"testing"
 	"time"
-
 	"github.com/gin-gonic/gin"
 	"github.com/ritankarsaha/backend/controllers"
 	"github.com/ritankarsaha/backend/models"
