@@ -158,3 +158,36 @@ func DeleteNews(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "News deleted successfully"})
 }
+func GetNewsByCategory(c *gin.Context){
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+	category := c.Param("category")
+
+	filter := bson.M{"category": category}
+
+		
+		var newsItems []models.News
+		cursor, err := newsCollection.Find(ctx, filter)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error finding news items"})
+			return
+		}
+		defer cursor.Close(ctx)
+
+		for cursor.Next(ctx) {
+			var newsItem models.News
+			if err = cursor.Decode(&newsItem); err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Error decoding news item"})
+				return
+			}
+			newsItems = append(newsItems, newsItem)
+		}
+
+		if err := cursor.Err(); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error iterating through news items"})
+			return
+		}
+
+		c.JSON(http.StatusOK, newsItems)
+
+}
