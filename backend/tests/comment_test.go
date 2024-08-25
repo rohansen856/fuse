@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-package commentsTest
-=======
-package controllers
->>>>>>> Stashed changes
+package main
 
 import (
 	"bytes"

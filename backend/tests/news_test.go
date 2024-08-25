@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/ritankarsaha/backend/models"
 	"github.com/stretchr/testify/assert"
