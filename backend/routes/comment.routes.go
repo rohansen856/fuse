@@ -7,6 +7,6 @@ import (
 
 func CommentRoutes(router *gin.Engine) {
 	router.POST("/comments", controllers.CreateComment)
-	router.GET("/posts/:post_id/comments", controllers.GetCommentsByPostID)
-	router.DELETE("/comments/:id", controllers.DeleteComment)
+	router.GET("/posts/:newsID/comments", controllers.GetCommentsByNewsID)
+	router.DELETE("/comments/:commentID", controllers.DeleteComment)
 }
