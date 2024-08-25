@@ -110,11 +110,11 @@ export default async function IndexPage() {
           {[
             {
               title: "App Dev Internship Bootcamp Program",
-              desc: "The App Development Internship BootCamp by BetterMind Labs is an intensive program designed for high school students eager to dive into the world of app development. Over several weeks, participants learn the fundamentals of app development, work on hands-on projects, and receive mentorship from industry professionals. By the end of the bootcamp, students will have created their own fully functional apps, gaining practical experience, valuable resources, and networking opportunities. This experience not only equips them with essential tech skills but also adds significant value to their college applications, demonstrating creativity, problem-solving, and a proactive approach to learning.",
+              desc: "The App Development Internship BootCamp by Fuse is an intensive program designed for high school students eager to dive into the world of app development. Over several weeks, participants learn the fundamentals of app development, work on hands-on projects, and receive mentorship from industry professionals. By the end of the bootcamp, students will have created their own fully functional apps, gaining practical experience, valuable resources, and networking opportunities. This experience not only equips them with essential tech skills but also adds significant value to their college applications, demonstrating creativity, problem-solving, and a proactive approach to learning.",
             },
             {
               title: "AI/ML Internship Bootcamp program",
-              desc: "The AI/ML Internship BootCamp by BetterMind Labs is a focused program designed for high school students interested in Artificial Intelligence and Machine Learning. Over several weeks, participants learn core AI/ML concepts, engage in hands-on projects, and receive mentorship from industry experts. By the end of the bootcamp, students will have developed their own AI/ML models and gained practical experience, networking opportunities, and access to valuable resources. This experience not only builds essential tech skills but also adds significant value to college applications, showcasing a strong commitment to learning and innovation in a cutting-edge field.",
+              desc: "The AI/ML Internship BootCamp by Fuse is a focused program designed for high school students interested in Artificial Intelligence and Machine Learning. Over several weeks, participants learn core AI/ML concepts, engage in hands-on projects, and receive mentorship from industry experts. By the end of the bootcamp, students will have developed their own AI/ML models and gained practical experience, networking opportunities, and access to valuable resources. This experience not only builds essential tech skills but also adds significant value to college applications, showcasing a strong commitment to learning and innovation in a cutting-edge field.",
             },
           ].map((i) => (
             <div className="relative h-[500px] w-[450px] overflow-hidden rounded-3xl border bg-primary/70 pt-12 text-primary-foreground shadow-xl">
@@ -139,11 +139,11 @@ export default async function IndexPage() {
           {[
             {
               title: "Computer Science and Business Internship Program",
-              desc: "The Computer Science and Business Internship BootCamp by BetterMind Labs is a comprehensive program tailored for high school students interested in the intersection of technology and business. Over several weeks, participants gain foundational knowledge in computer science, explore business concepts, and work on real-world projects that integrate both fields. Guided by industry mentors, students develop practical skills, create business solutions, and build a strong professional network. This experience not only enhances their technical and entrepreneurial abilities but also adds significant value to college applications, showcasing a well-rounded skill set and a forward-thinking approach to their education.",
+              desc: "The Computer Science and Business Internship BootCamp by Fuse is a comprehensive program tailored for high school students interested in the intersection of technology and business. Over several weeks, participants gain foundational knowledge in computer science, explore business concepts, and work on real-world projects that integrate both fields. Guided by industry mentors, students develop practical skills, create business solutions, and build a strong professional network. This experience not only enhances their technical and entrepreneurial abilities but also adds significant value to college applications, showcasing a well-rounded skill set and a forward-thinking approach to their education.",
             },
             {
               title: "STEM Hackathon to High School Students",
-              desc: "The STEM Hackathon by BetterMind Labs is an exciting, fast-paced event designed for high school students passionate about Science, Technology, Engineering, and Math. Over the course of a weekend, participants collaborate in teams to solve real-world challenges, using their STEM skills to innovate and create practical solutions. Guided by mentors and industry experts, students engage in coding, design, and problem-solving, culminating in a final presentation of their projects. This experience not only hones critical thinking and teamwork but also adds significant value to college applications, highlighting creativity, collaboration, and technical expertise in STEM fields",
+              desc: "The STEM Hackathon by Fuse is an exciting, fast-paced event designed for high school students passionate about Science, Technology, Engineering, and Math. Over the course of a weekend, participants collaborate in teams to solve real-world challenges, using their STEM skills to innovate and create practical solutions. Guided by mentors and industry experts, students engage in coding, design, and problem-solving, culminating in a final presentation of their projects. This experience not only hones critical thinking and teamwork but also adds significant value to college applications, highlighting creativity, collaboration, and technical expertise in STEM fields",
             },
           ].map((i) => (
             <div className="relative h-[550px] w-[450px] overflow-hidden rounded-3xl border bg-primary/70 pt-12 text-primary-foreground shadow-xl">
@@ -182,7 +182,7 @@ export default async function IndexPage() {
         </div>
         <div className="flex bg-background p-36 pt-12">
           <div className="">
-            <h4 className="mb-6 text-3xl">Why BetterMind Labs?</h4>
+            <h4 className="mb-6 text-3xl">Why Fuse?</h4>
             <p className="max-w-lg text-xl">
               We focus on personalized mentorship and real-world application
               with live projects to craft your X factor and help you uniquely

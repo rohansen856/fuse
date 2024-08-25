@@ -1,23 +1,16 @@
-version: "3.9"
-services:
-  postgres-db:
-    image: postgres:16
-    container_name: postgres-container
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: tech-tank
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    networks:
-      - tech-tank-test-network
+version: '3.8'
 
-networks:
-  tech-tank-test-network:
-    driver: bridge
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo-data:/data/db
 
 volumes:
-  postgres-data:
-
+  mongo-data:

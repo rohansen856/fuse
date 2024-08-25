@@ -43,11 +43,11 @@ export const metadata: Metadata = {
   ],
   authors: [
     {
-      name: "Bettermind Labs",
-      url: "https://Bettermind Labs.com",
+      name: "Fuse",
+      url: "https://Fuse.com",
     },
   ],
-  creator: "Bettermind Labs",
+  creator: "Fuse",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     images: [`${siteConfig.url}/og.jpg`],
-    creator: "@Bettermind Labs",
+    creator: "@Fuse",
   },
   icons: {
     icon: "/favicon.ico",

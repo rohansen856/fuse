@@ -94,7 +94,7 @@ export async function GET(req: Request) {
               tw="flex text-xl"
               style={{ fontFamily: "Inter", fontWeight: "normal" }}
             >
-              tx.Bettermind Labs.com
+              tx.Fuse.com
             </div>
             <div
               tw="flex items-center text-xl"
@@ -117,7 +117,7 @@ export async function GET(req: Request) {
                 />
               </svg>
               <div tw="flex ml-2">
-                github.com/Bettermind Labs/Bettermind Labs
+                github.com/Fuse/Fuse
               </div>
             </div>
           </div>
