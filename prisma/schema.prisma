@@ -10,78 +10,76 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Account {
-  id                String   @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?  @db.Text
-  access_token      String?  @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?  @db.Text
-  session_state     String?
-  createdAt         DateTime @default(now()) @map(name: "created_at")
-  updatedAt         DateTime @default(now()) @map(name: "updated_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-  @@map(name: "accounts")
-}
-
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @default(cuid()) @map("_id")
   sessionToken String   @unique
+  device       String?
   userId       String
   expires      DateTime
+
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map(name: "sessions")
 }
 
+enum Role {
+  consumer
+  journalist
+  auditor
+}
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+  id                String    @id @default(cuid()) @map("_id")
+  fullName          String?
+  userName          String    @unique
+  email             String
+  avatar            String?
+  role              Role      @default(consumer)
+  createdAt         DateTime  @default(now()) @map(name: "created_at")
+  updatedAt         DateTime  @default(now()) @map(name: "updated_at")
+  refresh_token     String?
+  preference        String?
 
-  accounts Account[]
   sessions Session[]
-  Post     Post[]
-
-  stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
-  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
-  stripePriceId          String?   @map(name: "stripe_price_id")
-  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+  News     News[]
+  Comments Comments[]
 
   @@map(name: "users")
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-  @@map(name: "verification_tokens")
+enum Status {
+  published
+  archived
 }
 
-model Post {
-  id        String   @id @default(cuid())
+model News {
+  id        String   @id @default(cuid()) @map("_id")
   title     String
   content   Json?
-  published Boolean  @default(false)
+  publisher  String
+  published Status   @default(published)
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
-  authorId  String
+  upvote    Int      @default(0)
+  downvote  Int      @default(0)
+  category  String
 
-  author User @relation(fields: [authorId], references: [id])
+  comments   Comments[]
 
-  @@map(name: "posts")
+  author User @relation(fields: [publisher], references: [id])
+
+  @@map(name: "news")
+}
+
+model Comments {
+    id        String   @id @default(cuid()) @map("_id")
+    publisher    String
+    newsId    String
+    content   String
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+    news   News @relation(fields: [newsId], references: [id])
+    author User @relation(fields: [publisher], references: [id])
+
+    @@map("comments")
 }
