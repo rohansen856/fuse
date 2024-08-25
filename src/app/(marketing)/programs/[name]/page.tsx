@@ -266,7 +266,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
         <div className="max-w-sm">
           <p className="mb-4 text-xl text-blue-500">Certify your learning</p>
           <p>
-            Get a BetterMind Labs certificate upon successful completion of
+            Get a Fuse certificate upon successful completion of
             program
           </p>
         </div>

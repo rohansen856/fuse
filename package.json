@@ -1,9 +1,9 @@
 {
-  "name": "Bettermind Labs",
+  "name": "fuse",
   "version": "0.2.0",
   "private": true,
   "author": {
-    "name": "Bettermind Labs",
+    "name": "Fuse",
     "url": "https://twitter.com/rohansen856"
   },
   "scripts": {
