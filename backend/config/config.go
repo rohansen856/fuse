@@ -21,7 +21,7 @@ func LoadConfig() {
 	}
 
 	AppConfig = Config{
-		MongoURI:  os.Getenv("MONGO_URI"),
+		MongoURI:  os.Getenv("DATABASE_URL"),
 		Database:  os.Getenv("MONGO_DATABASE"),
 		Port:      os.Getenv("PORT"),
 	}
