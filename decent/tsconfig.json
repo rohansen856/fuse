@@ -8,7 +8,9 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": [],
+  "include": [
+    "frontend/**/*"
+  ],
   "exclude": [
     "node_modules",
     "ignition"
