@@ -21,7 +21,7 @@ func DBinstance() *mongo.Client {
 		log.Fatal(err)
 	}
 
-	mongoURI := os.Getenv("MONGODB_URL")
+	mongoURI := os.Getenv("DATABASE_URL")
 	clientOptions, err := mongo.NewClient(options.Client().ApplyURI(mongoURI))
 	if err != nil {
 		log.Fatal(err)
