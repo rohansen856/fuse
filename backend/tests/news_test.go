@@ -1,4 +1,4 @@
-package main
+package tests
 
 import (
 	"bytes"
@@ -7,20 +7,23 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/ritankarsaha/backend/models"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-)
+	"github.com/ritankarsaha/backend/controllers"
 
+)
 var newsCollection = setupMockNewsCollection()
 
 func setupMockNewsCollection() *MockNewsCollection {
 	return &MockNewsCollection{}
 }
 
+// MockNewsCollection simulates MongoDB collection methods
 type MockNewsCollection struct{}
 
 func (m *MockNewsCollection) InsertOne(ctx context.Context, news interface{}) (interface{}, error) {
@@ -47,9 +50,15 @@ type MockCursor struct{}
 
 func (mc *MockCursor) All(ctx context.Context, results interface{}) error {
 	*results.(*[]models.News) = append(*results.(*[]models.News), models.News{
-		ID:      primitive.NewObjectID(),
-		Title:   "Test Title",
-		Content: "Test Content",
+		ID:        primitive.NewObjectID(),
+		Category:  "Tech",
+		Datetime:  time.Now(),
+		Headline:  "Test Headline",
+		Image:     "https://example.com/image.jpg",
+		Related:   "Related News",
+		Source:    "Test Source",
+		Summary:   "Test Summary",
+		URL:       "https://example.com/news",
 	})
 	return nil
 }
@@ -74,21 +83,32 @@ type MockSingleResult struct{}
 
 func (msr *MockSingleResult) Decode(val interface{}) error {
 	*val.(*models.News) = models.News{
-		ID:      primitive.NewObjectID(),
-		Title:   "Test Title",
-		Content: "Test Content",
+		ID:        primitive.NewObjectID(),
+		Category:  "Tech",
+		Datetime:  time.Now(),
+		Headline:  "Test Headline",
+		Image:     "https://example.com/image.jpg",
+		Related:   "Related News",
+		Source:    "Test Source",
+		Summary:   "Test Summary",
+		URL:       "https://example.com/news",
 	}
 	return nil
 }
 
 func TestCreateNews(t *testing.T) {
 	router := gin.Default()
-	router.POST("/news", CreateNews)
+	router.POST("/news", controllers.CreateNews)
 
 	news := models.News{
-		Title:    "Test News",
-		Content:  "This is a test news content",
-		Category: "Tech",
+		Category:  "Tech",
+		Datetime:  time.Now(),
+		Headline:  "Test News Headline",
+		Image:     "https://example.com/image.jpg",
+		Related:   "Related News",
+		Source:    "Test Source",
+		Summary:   "This is a test news summary",
+		URL:       "https://example.com/news",
 	}
 
 	body, _ := json.Marshal(news)
@@ -103,7 +123,7 @@ func TestCreateNews(t *testing.T) {
 
 func TestGetNews(t *testing.T) {
 	router := gin.Default()
-	router.GET("/news", GetNews)
+	router.GET("/news", controllers.GetNews)
 
 	req, _ := http.NewRequest("GET", "/news", nil)
 
@@ -115,7 +135,7 @@ func TestGetNews(t *testing.T) {
 
 func TestGetNewsByID(t *testing.T) {
 	router := gin.Default()
-	router.GET("/news/:id", GetNewsByID)
+	router.GET("/news/:id", controllers.GetNewsByID)
 
 	newsID := primitive.NewObjectID().Hex()
 	req, _ := http.NewRequest("GET", "/news/"+newsID, nil)
@@ -128,12 +148,18 @@ func TestGetNewsByID(t *testing.T) {
 
 func TestUpdateNews(t *testing.T) {
 	router := gin.Default()
-	router.PUT("/news/:id", UpdateNews)
+	router.PUT("/news/:id", controllers.UpdateNews)
 
 	newsID := primitive.NewObjectID().Hex()
 	updatedNews := models.News{
-		Title:   "Updated Title",
-		Content: "Updated Content",
+		Category:  "Updated Tech",
+		Datetime:  time.Now(),
+		Headline:  "Updated Headline",
+		Image:     "https://example.com/updated_image.jpg",
+		Related:   "Updated Related News",
+		Source:    "Updated Source",
+		Summary:   "Updated Summary",
+		URL:       "https://example.com/updated_news",
 	}
 
 	body, _ := json.Marshal(updatedNews)
@@ -148,7 +174,7 @@ func TestUpdateNews(t *testing.T) {
 
 func TestDeleteNews(t *testing.T) {
 	router := gin.Default()
-	router.DELETE("/news/:id", DeleteNews)
+	router.DELETE("/news/:id", controllers.DeleteNews)
 
 	newsID := primitive.NewObjectID().Hex()
 	req, _ := http.NewRequest("DELETE", "/news/"+newsID, nil)
@@ -161,7 +187,7 @@ func TestDeleteNews(t *testing.T) {
 
 func TestGetNewsByCategory(t *testing.T) {
 	router := gin.Default()
-	router.GET("/news/category/:category", GetNewsByCategory)
+	router.GET("/news/category/:category", controllers.GetNewsByCategory)
 
 	req, _ := http.NewRequest("GET", "/news/category/Tech", nil)
 
