@@ -7,7 +7,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// CheckUserType checks the user type before any function is executed.
 func CheckUserType(c *gin.Context, roll string) error {
 	userType := c.GetString("user_type")
 	if userType != roll {
@@ -16,7 +15,6 @@ func CheckUserType(c *gin.Context, roll string) error {
 	return nil
 }
 
-// MathUserTypeToUid matches user type to UID and checks for consistency.
 func MathUserTypeToUid(c *gin.Context, userId string) error {
 	userType := c.GetString("user_type")
 	id := c.GetString("uid")
