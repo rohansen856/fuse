@@ -1,21 +1,24 @@
 from flask import Flask, request, jsonify
+import language_tool_python
 
-app = Flask(__name__)
+app = Flask(_name_)
+tool = language_tool_python.LanguageTool('en-US')
 
 # GET route
 @app.route('/grammar', methods=['GET'])
 def get_data():
-    # You can fetch and return some data here
     data = {"message": "This is a GET request"}
     return jsonify(data)
 
-# POST route
+# POST route for grammar checking
 @app.route('/grammar', methods=['POST'])
 def post_data():
-    # Retrieve data from the POST request
     data = request.json  # assuming the data is sent as JSON
-    response = {"received_data": data}
+    text = data.get("text", "")
+    matches = tool.check(text)
+    errors = [{"message": match.message, "offset": match.offset, "errorLength": match.errorLength} for match in matches]
+    response = {"errors": errors}
     return jsonify(response)
 
-if __name__ == '__main__':
+if _name_ == '_main_':
     app.run(debug=True)
