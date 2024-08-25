@@ -1,3 +1,4 @@
 {
-  "VotingModule#VotingContract": "0x19A589358B2E652C300203b88cA266dDB4838aEA"
+  "VotingModule#VotingContract": "0x19A589358B2E652C300203b88cA266dDB4838aEA",
+  "NewsModule#NewsContract": "0xa7670DAa354D729C5f19efefE3d87985096f5026"
 }
