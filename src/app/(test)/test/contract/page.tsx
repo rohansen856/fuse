@@ -4,11 +4,9 @@ import { useEffect, useState } from "react"
 import { ethers, type Contract, type Eip1193Provider } from "ethers"
 
 import { ContractABI, ContractAddress } from "@/lib/contract"
+import { toast } from "@/components/ui/use-toast"
 
-import { Button } from "./ui/button"
-import { toast } from "./ui/use-toast"
-
-export function ConnectMetamask() {
+export default function ContractTest() {
   const [account, setAccount] = useState<string | null>(null)
   const [contract, setContract] = useState<Contract | null>(null)
   // const [votesStatus, setVotesStatus] = useState<any[]>([])
@@ -42,45 +40,33 @@ export function ConnectMetamask() {
   //     await contract?.getCandidate(1),
   //     await contract?.getCandidate(2),
   //   ]
-  //   setVotesStatus(data)
   //   console.log(data)
   // }
 
-  // useEffect(() => {
-  //   contract?.on("VoteCast", (...props) => {
-  //     console.log(props)
-  //   })
-  //   getVotes()
-  // }, [contract])
+  useEffect(() => {
+    contract?.on("NewsPublish", (...props) => {
+      console.log(props)
+    })
+    // getVotes()
+  }, [contract])
 
-  // async function vote(index: number) {
-  //   try {
-  //     await contract?.vote(index)
-  //     toast({
-  //       title: "Voted Successfully",
-  //       description: `voted for ${votesStatus[index]}`,
-  //     })
-  //   } catch (error) {
-  //     toast({
-  //       title: "Error while voting",
-  //       description: (
-  //         <pre>
-  //           <code>{JSON.stringify(error, null, 2)}</code>
-  //         </pre>
-  //       ),
-  //     })
-  //   }
-  // }
+  async function publish(index: number) {
+    try {
+      await contract?.publish(index)
+      toast({
+        title: "Voted Successfully",
+      })
+    } catch (error) {
+      toast({
+        title: "Error while voting",
+        description: (
+          <pre>
+            <code>{JSON.stringify(error, null, 2)}</code>
+          </pre>
+        ),
+      })
+    }
+  }
 
-  return (
-    <div className="mx-4 ml-auto">
-      <Button
-        onClick={async () => {
-          await connect()
-        }}
-      >
-        Connect Your wallet
-      </Button>
-    </div>
-  )
+  return <div></div>
 }
