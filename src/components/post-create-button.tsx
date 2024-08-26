@@ -49,12 +49,13 @@ export function PostCreateButton({
       })
     }
 
-    const post = (await response.json()) as { id: string }
+    const post = (await response.json()) as { news_id: string }
 
     // This forces a cache invalidation.
     router.refresh()
 
-    router.push(`/editor/${post.id}`)
+    router.push(`/editor/${post.news_id}`)
+    console.log(post)
   }
 
   return (

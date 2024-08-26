@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation"
 import { News, User } from "@prisma/client"
+import axios from "axios"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
@@ -7,12 +8,10 @@ import { getCurrentUser } from "@/lib/session"
 import { Editor } from "@/components/editor"
 
 async function getPostForUser(postId: News["id"], userId: User["id"]) {
-  return await db.news.findFirst({
-    where: {
-      id: postId,
-      publisher: userId,
-    },
-  })
+  console.log(postId)
+  const response = await axios.get(`http://localhost:8000/news/${postId}`)
+  console.log(response)
+  return response.data
 }
 
 interface EditorPageProps {
@@ -25,7 +24,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login")
   }
-
+  console.log(params)
   const post = await getPostForUser(params.postId, user.id)
 
   if (!post) {
