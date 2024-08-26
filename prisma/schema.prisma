@@ -38,6 +38,7 @@ model User {
   updatedAt         DateTime  @default(now()) @map(name: "updated_at")
   refresh_token     String?
   preference        String?
+  address           String?
 
   sessions Session[]
   News     News[]
