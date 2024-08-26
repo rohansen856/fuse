@@ -26,7 +26,7 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 export function UserAccountNav({ user }: UserAccountNavProps) {
   const [isLoading, setLoading] = useState(false)
   const router = useRouter()
-  const address = window.localStorage.getItem("address")
+  const address = window ? window.localStorage.getItem("address"): null
 
   return (
     <DropdownMenu>
