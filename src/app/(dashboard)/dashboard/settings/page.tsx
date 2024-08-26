@@ -8,7 +8,7 @@ import { UserNameForm } from "@/components/user-name-form"
 
 export const metadata = {
   title: "Settings",
-  description: "Manage account and website settings.",
+  description: "Update/Modify your account Settings.",
 }
 
 export default async function SettingsPage() {
@@ -22,7 +22,7 @@ export default async function SettingsPage() {
     <DashboardShell>
       <DashboardHeader
         heading="Settings"
-        text="Manage account and website settings."
+        text="Update/Modify your account Settings."
       />
       <div className="grid gap-10">
         <UserNameForm user={{ id: user.id, name: user.name || "" }} />

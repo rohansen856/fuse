@@ -1,31 +1,30 @@
-import { notFound } from "next/navigation"
-
-import { dashboardConfig } from "@/config/dashboard"
-import { getCurrentUser } from "@/lib/session"
-import { ConnectMetamask } from "@/components/metamask"
-import { MainNav } from "@/components/shared/main-nav"
-import { DashboardNav } from "@/components/shared/nav"
-import { SiteFooter } from "@/components/shared/site-footer"
-import { UserAccountNav } from "@/components/user-account-nav"
-import { MetaMaskInpageProvider } from "@metamask/providers"
+import { notFound } from "next/navigation";
+import { dashboardConfig } from "@/config/dashboard";
+import { getCurrentUser } from "@/lib/session";
+import { ConnectMetamask } from "@/components/metamask";
+import { MainNav } from "@/components/shared/main-nav";
+import { DashboardNav } from "@/components/shared/nav";
+import { SiteFooter } from "@/components/shared/site-footer";
+import { UserAccountNav } from "@/components/user-account-nav";
+import { MetaMaskInpageProvider } from "@metamask/providers";
 
 declare global {
   interface Window {
-    ethereum?: MetaMaskInpageProvider
+    ethereum?: MetaMaskInpageProvider;
   }
 }
 
 interface DashboardLayoutProps {
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
 
   if (!user) {
-    return notFound()
+    return notFound();
   }
 
   return (
@@ -52,5 +51,5 @@ export default async function DashboardLayout({
       </div>
       <SiteFooter className="border-t" />
     </div>
-  )
+  );
 }
