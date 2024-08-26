@@ -1,4 +1,4 @@
-package tests
+package main
 
 import (
 	"bytes"
@@ -7,15 +7,16 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/ritankarsaha/backend/controllers"
 	"github.com/ritankarsaha/backend/models"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"github.com/ritankarsaha/backend/controllers"
-
 )
+
 var newsCollection = setupMockNewsCollection()
 
 func setupMockNewsCollection() *MockNewsCollection {
@@ -49,15 +50,15 @@ type MockCursor struct{}
 
 func (mc *MockCursor) All(ctx context.Context, results interface{}) error {
 	*results.(*[]models.News) = append(*results.(*[]models.News), models.News{
-		ID:        primitive.NewObjectID(),
-		Category:  "Tech",
-		Datetime:  time.Now(),
-		Headline:  "Test Headline",
-		Image:     "https://example.com/image.jpg",
-		Related:   "Related News",
-		Source:    "Test Source",
-		Summary:   "Test Summary",
-		URL:       "https://example.com/news",
+		ID:       primitive.NewObjectID(),
+		Category: "Tech",
+		Datetime: time.Now(),
+		Headline: "Test Headline",
+		Image:    "https://example.com/image.jpg",
+		Related:  "Related News",
+		Source:   "Test Source",
+		Summary:  "Test Summary",
+		URL:      "https://example.com/news",
 	})
 	return nil
 }
@@ -82,15 +83,15 @@ type MockSingleResult struct{}
 
 func (msr *MockSingleResult) Decode(val interface{}) error {
 	*val.(*models.News) = models.News{
-		ID:        primitive.NewObjectID(),
-		Category:  "Tech",
-		Datetime:  time.Now(),
-		Headline:  "Test Headline",
-		Image:     "https://example.com/image.jpg",
-		Related:   "Related News",
-		Source:    "Test Source",
-		Summary:   "Test Summary",
-		URL:       "https://example.com/news",
+		ID:       primitive.NewObjectID(),
+		Category: "Tech",
+		Datetime: time.Now(),
+		Headline: "Test Headline",
+		Image:    "https://example.com/image.jpg",
+		Related:  "Related News",
+		Source:   "Test Source",
+		Summary:  "Test Summary",
+		URL:      "https://example.com/news",
 	}
 	return nil
 }
@@ -100,14 +101,14 @@ func TestCreateNews(t *testing.T) {
 	router.POST("/news", controllers.CreateNews)
 
 	news := models.News{
-		Category:  "Tech",
-		Datetime:  time.Now(),
-		Headline:  "Test News Headline",
-		Image:     "https://example.com/image.jpg",
-		Related:   "Related News",
-		Source:    "Test Source",
-		Summary:   "This is a test news summary",
-		URL:       "https://example.com/news",
+		Category: "Tech",
+		Datetime: time.Now(),
+		Headline: "Test News Headline",
+		Image:    "https://example.com/image.jpg",
+		Related:  "Related News",
+		Source:   "Test Source",
+		Summary:  "This is a test news summary",
+		URL:      "https://example.com/news",
 	}
 
 	body, _ := json.Marshal(news)
@@ -151,14 +152,14 @@ func TestUpdateNews(t *testing.T) {
 
 	newsID := primitive.NewObjectID().Hex()
 	updatedNews := models.News{
-		Category:  "Updated Tech",
-		Datetime:  time.Now(),
-		Headline:  "Updated Headline",
-		Image:     "https://example.com/updated_image.jpg",
-		Related:   "Updated Related News",
-		Source:    "Updated Source",
-		Summary:   "Updated Summary",
-		URL:       "https://example.com/updated_news",
+		Category: "Updated Tech",
+		Datetime: time.Now(),
+		Headline: "Updated Headline",
+		Image:    "https://example.com/updated_image.jpg",
+		Related:  "Updated Related News",
+		Source:   "Updated Source",
+		Summary:  "Updated Summary",
+		URL:      "https://example.com/updated_news",
 	}
 
 	body, _ := json.Marshal(updatedNews)
