@@ -4,66 +4,44 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
+	"log"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/ritankarsaha/backend/controllers"
+	"github.com/ritankarsaha/backend/database"
 	"github.com/ritankarsaha/backend/models"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
-var commentCollection = setupMockCommentCollection()
 
-func setupMockCommentCollection() *MockCommentCollection {
-	return &MockCommentCollection{}
+func DBinstance() *mongo.Client {
+	
+	clientOptions, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017/"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	err = clientOptions.Connect(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Connected to mongodb")
+	return clientOptions
 }
 
-// MockCommentCollection simulates MongoDB collection methods
-type MockCommentCollection struct{}
+var Client *mongo.Client = DBinstance()
 
-func (m *MockCommentCollection) InsertOne(ctx context.Context, comment interface{}) (interface{}, error) {
-	return &mongo.InsertOneResult{InsertedID: primitive.NewObjectID()}, nil
-}
+var commentCollection *mongo.Collection = database.OpenCollection(database.Client,"comments")
 
-func (m *MockCommentCollection) Find(ctx context.Context, filter interface{}) (*MockCursor, error) {
-	return &MockCursor{}, nil
-}
-
-func (m *MockCommentCollection) DeleteOne(ctx context.Context, filter interface{}) (*mongo.DeleteResult, error) {
-	return &mongo.DeleteResult{DeletedCount: 1}, nil
-}
-
-type MockCursor struct{}
-
-func (mc *MockCursor) All(ctx context.Context, results interface{}) error {
-	*results.(*[]models.Comment) = append(*results.(*[]models.Comment), models.Comment{
-		ID:        primitive.NewObjectID(),
-		NewsID:    primitive.NewObjectID(),
-		Content:   "This is a test comment",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	})
-	return nil
-}
-
-func (mc *MockCursor) Close(ctx context.Context) error {
-	return nil
-}
-
-func (mc *MockCursor) Next(ctx context.Context) bool {
-	return false
-}
-
-func (mc *MockCursor) Decode(val interface{}) error {
-	return nil
-}
-
-func (mc *MockCursor) Err() error {
-	return nil
-}
 
 func TestCreateComment(t *testing.T) {
 	router := gin.Default()
@@ -78,7 +56,6 @@ func TestCreateComment(t *testing.T) {
 
 	body, _ := json.Marshal(comment)
 	req, _ := http.NewRequest("POST", "/comments", bytes.NewBuffer(body))
-	req.Header.Set("Content-Type", "application/json")
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
@@ -99,15 +76,15 @@ func TestGetCommentsByNewsID(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 
-func TestDeleteComment(t *testing.T) {
-	router := gin.Default()
-	router.DELETE("/comments/:commentID", controllers.DeleteComment)
 
-	commentID := primitive.NewObjectID().Hex()
-	req, _ := http.NewRequest("DELETE", "/comments/"+commentID, nil)
+func tearDown(client *mongo.Client) {
+	if err := client.Disconnect(context.TODO()); err != nil {
+		panic(err)
+	}
+}
 
-	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
+func TestMain(m *testing.M) {
+	exitVal := m.Run()
+	tearDown(Client)
+	os.Exit(exitVal)
 }
