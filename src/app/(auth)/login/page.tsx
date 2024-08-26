@@ -30,7 +30,7 @@ export default function LoginPage() {
       </Link>
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
         <div className="flex flex-col space-y-2 text-center">
-          <Image src={"/public/BML.png"} height={50} width={50} alt="BML" />
+          <Image src={"/public/fuse.jpeg"} height={50} width={50} alt="BML" />
           <h1 className="text-2xl font-semibold tracking-tight">
             Welcome back
           </h1>
