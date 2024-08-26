@@ -5,14 +5,14 @@ import { ChevronRight } from "lucide-react"
 
 import { buttonVariants } from "@/components/ui/button"
 
-import { programData } from "./data"
+import { articleData } from "./data"
 
 interface EditorPageProps {
   params: { name: string }
 }
 
 export default async function EditorPage({ params }: EditorPageProps) {
-  const program = programData.find((i) => i.path === params.name)
+  const program = articleData.find((i) => i.path === params.name)
 
   if (!program) {
     notFound()
@@ -127,7 +127,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
       </section>
       <section className="w-full bg-primary p-12 text-primary-foreground">
         <h2 className="mb-12 text-center text-2xl font-bold">
-          What You&apos;ll get out of this course
+          What You&apos;ll get out of this article
         </h2>
         <div className="container max-w-5xl space-y-8">
           {program.benifits.map((i) => (
@@ -140,7 +140,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
       </section>
       <section className="flex w-full flex-col bg-primary p-12 text-primary-foreground">
         <p className="mb-12 text-center text-3xl">
-          What You&apos;ll get out of this course
+          What You&apos;ll get out of this article
         </p>
         <div className="container flex max-w-5xl flex-1 flex-wrap items-center justify-between gap-12">
           <p className="font-bold">
@@ -167,7 +167,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
         </div>
       </section>
       <section className="flex w-full flex-col bg-primary p-12 text-primary-foreground">
-        <p className="mb-12 text-center text-3xl">Course Syllabus</p>
+        <p className="mb-12 text-center text-3xl">Article Syllabus</p>
         <div className="container space-y-4">
           {program.syllabus.map((i) => (
             <div className="bg-secondary/10 p-4">
@@ -184,15 +184,15 @@ export default async function EditorPage({ params }: EditorPageProps) {
       </section>
       <section className="flex w-full flex-col bg-primary p-12 text-primary-foreground">
         <p className="mb-4 text-center text-3xl font-extrabold">
-          Course Syllabus
+          Article Syllabus
         </p>
         <p className="mb-12 text-center text-lg">3 Hours Per week</p>
         <div className="container mb-8 max-w-3xl">
           <p className="text-xl font-bold">4 week programme</p>
           <p className="mb-4 text-yellow-500">3 hours per week</p>
           <p>
-            All course lessons will release on date of course opening and can be
-            viewed at student&apos;s pace
+            All article lessons will release on date of article opening and can
+            be viewed at student&apos;s pace
           </p>
         </div>
         <div className="container max-w-3xl">
@@ -200,7 +200,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
           <p className="mb-4 text-yellow-500">1 hour</p>
           <p>
             A Live Q&A session with Allie and her senior App development fellow
-            will take place approximately 2 weeks after the course lessons
+            will take place approximately 2 weeks after the article lessons
           </p>
         </div>
       </section>
@@ -265,10 +265,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
       <section className="flex w-full items-center justify-around bg-primary p-12 text-primary-foreground">
         <div className="max-w-sm">
           <p className="mb-4 text-xl text-blue-500">Certify your learning</p>
-          <p>
-            Get a Fuse certificate upon successful completion of
-            program
-          </p>
+          <p>Get a Fuse certificate upon successful completion of program</p>
         </div>
         <div className="flex gap-4">
           <div className="h-[400px] w-[270px] bg-blue-500"></div>

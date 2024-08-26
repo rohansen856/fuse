@@ -9,6 +9,7 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 
 import AnimatedGradientText from "./components/animated-gradient"
+import { MarqueeDemo } from "./components/testimonials"
 import { services } from "./services"
 
 export default async function IndexPage() {
@@ -55,7 +56,7 @@ export default async function IndexPage() {
             Personalized News
           </Link>
           <Link
-            href={"/news#trending"}
+            href={"/programs#trending"}
             className={buttonVariants({
               className: "w-[300px] border-2 border-yellow-600 p-6",
               variant: "secondary",
@@ -64,7 +65,7 @@ export default async function IndexPage() {
             Top Trending News
           </Link>
           <Link
-            href={"/news#research"}
+            href={"/programs#research"}
             className={buttonVariants({
               className: "w-[300px] border-2 border-yellow-600 p-6",
               variant: "secondary",
@@ -73,7 +74,7 @@ export default async function IndexPage() {
             Sports News
           </Link>
           <Link
-            href={"/news#upcoming"}
+            href={"/programs#upcoming"}
             className={buttonVariants({
               className: "w-[300px] border-2 border-yellow-600 p-6",
               variant: "secondary",
@@ -236,6 +237,9 @@ export default async function IndexPage() {
         <p className="mb-12 text-center">
           SEE WHAT HIGH READERS HAVE TO SAY ABOUT OUR ARTICLES
         </p>
+        <div className="mb-16">
+          <MarqueeDemo />
+        </div>
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-around gap-12">
           {[
             {

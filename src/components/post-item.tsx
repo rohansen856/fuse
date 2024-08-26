@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { PostOperations } from "@/components/post-operations"
 
 interface PostItemProps {
-  post: Pick<News, "id" | "title" | "published" | "createdAt">
+  post: Pick<News, "ID" | "headline" | "published" | "createdAt">
 }
 
 export function PostItem({ post }: PostItemProps) {
@@ -14,10 +14,10 @@ export function PostItem({ post }: PostItemProps) {
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`/editor/${post.id}`}
+          href={`/editor/${post.ID}`}
           className="font-semibold hover:underline"
         >
-          {post.title}
+          {post.headline}
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">
@@ -25,7 +25,7 @@ export function PostItem({ post }: PostItemProps) {
           </p>
         </div>
       </div>
-      <PostOperations post={{ id: post.id, title: post.title }} />
+      <PostOperations post={{ id: post.ID, title: post.headline }} />
     </div>
   )
 }
