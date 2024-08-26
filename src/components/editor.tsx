@@ -89,7 +89,7 @@ export function Editor({ post }: EditorProps) {
 
     const blocks = await ref.current?.save()
 
-    const response = await fetch(`/api/posts/${post.id}`, {
+    const response = await fetch(`http://localhost:8000/news/${post.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
