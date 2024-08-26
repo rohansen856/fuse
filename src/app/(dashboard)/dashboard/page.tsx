@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation"
-
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
@@ -37,12 +36,12 @@ export default async function DashboardPage() {
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Posts" text="Create and manage posts.">
+      <DashboardHeader heading="News Hub" text="Manage your news content in style.">
         <PostCreateButton />
       </DashboardHeader>
-      <div>
+      <div className="mt-6">
         {posts?.length ? (
-          <div className="divide-y divide-border rounded-md border">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {posts.map((post) => (
               <PostItem key={post.id} post={post} />
             ))}
@@ -50,9 +49,9 @@ export default async function DashboardPage() {
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="post" />
-            <EmptyPlaceholder.Title>No posts created</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Title>No News Available</EmptyPlaceholder.Title> 
             <EmptyPlaceholder.Description>
-              You don&apos;t have any posts yet. Start creating content.
+              Get started by posting news to share with your community.
             </EmptyPlaceholder.Description>
             <PostCreateButton variant="outline" />
           </EmptyPlaceholder>
