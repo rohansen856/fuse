@@ -13,3 +13,4 @@ func NewsRoutes(router *gin.Engine) {
 	router.DELETE("/news/:id", controllers.DeleteNews)
 	router.GET("/news/category/:category",controllers.GetNewsByCategory)
 }
+

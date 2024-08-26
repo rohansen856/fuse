@@ -53,17 +53,22 @@ enum Status {
 }
 
 model News {
-  id        String   @id @default(cuid()) @map("_id")
-  title     String
+  ID        String   @id @default(cuid()) @map("_id")
+  headline  String
   content   Json?
   publisher  String
   published Status   @default(published)
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
+  datetime  DateTime @default(now())
   upvote    Int      @default(0)
   downvote  Int      @default(0)
-  category  String
-
+  Category  String
+  Image     String?
+  Related   String?
+  Source    String?
+  Summary   String?
+  URL       String?
   comments   Comments[]
 
   author User @relation(fields: [publisher], references: [id])
@@ -79,7 +84,7 @@ model Comments {
     createdAt DateTime @default(now()) @map(name: "created_at")
     updatedAt DateTime @default(now()) @map(name: "updated_at")
 
-    news   News @relation(fields: [newsId], references: [id])
+    news   News @relation(fields: [newsId], references: [ID])
     author User @relation(fields: [publisher], references: [id])
 
     @@map("comments")
