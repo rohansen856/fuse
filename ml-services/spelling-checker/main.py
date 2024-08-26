@@ -1,9 +1,7 @@
 import re
-import tkinter as tk
-from tkinter.scrolledtext import ScrolledText
 import ssl
 import nltk
-from  nltk import words 
+from nltk.corpus import words
 
 try:
     _create_unverified_https_context = ssl._create_unverified_context
@@ -14,38 +12,37 @@ else:
 
 nltk.download("words")
 
-class SpellingChecker:
-    def __init__(self):
-        self.root = tk.Tk()
-        self.root.title("Spelling Checker")
-        self.root.geometry("600x500")
+def check_spelling(content):
+    """Check spelling of words in the given content.
 
-        self.text = ScrolledText(self.root, font=("Arial", 14), wrap=tk.WORD)
-        self.text.bind("<KeyRelease>", self.check_spelling)
-        self.text.pack(expand=True, fill=tk.BOTH)
-        self.old_spaces = 0
+    Args:
+        content (str): The text to check.
 
-        self.root.mainloop()
+    Returns:
+        list: A list of words with spelling errors.
+    """
+    errors = []
+    content = content.strip()
 
-    def check_spelling(self, event):
-        content = self.text.get("1.0", tk.END).strip()
-        space_count = content.count(" ")
+    words_in_text = content.split(" ")
+    for word in words_in_text:
+        clean_word = re.sub(r"[^\w]", "", word.lower())
+        if clean_word and clean_word not in words.words():
+            errors.append(word)
+    
+    return errors
 
-        if space_count != self.old_spaces:
-            self.old_spaces = space_count
+# Example usage in Flask
+from flask import Flask, request, jsonify
 
-            for tag in self.text.tag_names():
-                self.text.tag_delete(tag)
+app = Flask(__name__)
 
-
-            words_in_text = content.split(" ")
-            for word in words_in_text:
-                clean_word = re.sub(r"[^\w]", "", word.lower())
-                if clean_word and clean_word not in words.words():
-                    start_idx = content.find(word)
-                    end_idx = start_idx + len(word)
-                    self.text.tag_add(clean_word, f"1.{start_idx}", f"1.{end_idx}")
-                    self.text.tag_config(clean_word, foreground="red")
+@app.route('/check_spelling', methods=['POST'])
+def spelling_check_endpoint():
+    data = request.json
+    content = data.get("text", "")
+    errors = check_spelling(content)
+    return jsonify({"errors": errors})
 
 if __name__ == "__main__":
-    SpellingChecker()
+    app.run(debug=True)
