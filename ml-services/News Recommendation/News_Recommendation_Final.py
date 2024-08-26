@@ -150,6 +150,6 @@ def recommend_similar_news(new_head , new_desc , new_author ,k):
 news.loc[12 ,'headline']
 
 news.loc[12 ,'short_description']
-
-print(recommend_similar_news(news.loc[12 ,'headline'] ,news.loc[12 ,'short_description'],news.loc[12 ,'authors'],5))
+demi = {"link":"https:\/\/www.huffpost.com\/entry\/covid-boosters-uptake-us_n_632d719ee4b087fae6feaac9","headline":"Over 4 Million Americans Roll Up Sleeves For Omicron-Targeted COVID Boosters","category":"U.S. NEWS","short_description":"Health experts said it is too early to predict whether demand would match up with the 171 million doses of the new boosters the U.S. ordered for the fall.","authors":"Carla K. Johnson, AP","date":1663891200000}
+print(recommend_similar_news("Over 4 Million Americans Roll Up Sleeves For Omicron-Targeted COVID Boosters" ,"Health experts said it is too early to predict whether demand would match up with the 171 million doses of the new boosters the U.S. ordered for the fall.","Carla K. Johnson, AP",5))
 

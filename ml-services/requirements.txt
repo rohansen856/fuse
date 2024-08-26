@@ -1,0 +1,11 @@
+numpy
+pandas
+nltk
+textblob
+seaborn
+matplotlib
+scikit-learn
+# heapq
+wordcloud
+plotly
+# re
