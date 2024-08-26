@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Post } from "@prisma/client"
+import { News } from "@prisma/client"
 
 import {
   AlertDialog,
@@ -26,7 +26,7 @@ import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
 async function deletePost(postId: string) {
-  const response = await fetch(`/api/posts/${postId}`, {
+  const response = await fetch(`http://localhost:8000/news/${postId}`, {
     method: "DELETE",
   })
 
@@ -42,7 +42,7 @@ async function deletePost(postId: string) {
 }
 
 interface PostOperationsProps {
-  post: Pick<Post, "id" | "title">
+  post: Pick<News, "id" | "title">
 }
 
 export function PostOperations({ post }: PostOperationsProps) {
