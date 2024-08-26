@@ -21,7 +21,7 @@ export function PostCreateButton({
   async function onClick() {
     setIsLoading(true)
 
-    const response = await fetch("http://localhost:8000/news/", {
+    const response = await fetch("http://localhost:8000/news", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
