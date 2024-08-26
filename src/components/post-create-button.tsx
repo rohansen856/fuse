@@ -44,7 +44,7 @@ export function PostCreateButton({
 
       return toast({
         title: "Something went wrong.",
-        description: "Your post was not created. Please try again.",
+        description: "Your news could not be. Please try again.",
         variant: "destructive",
       })
     }
@@ -75,7 +75,7 @@ export function PostCreateButton({
       ) : (
         <Icons.add className="mr-2 h-4 w-4" />
       )}
-      New post
+      New Article
     </button>
   )
 }
