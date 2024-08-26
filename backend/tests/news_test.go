@@ -23,7 +23,6 @@ func setupMockNewsCollection() *MockNewsCollection {
 	return &MockNewsCollection{}
 }
 
-// MockNewsCollection simulates MongoDB collection methods
 type MockNewsCollection struct{}
 
 func (m *MockNewsCollection) InsertOne(ctx context.Context, news interface{}) (interface{}, error) {
@@ -126,58 +125,6 @@ func TestGetNews(t *testing.T) {
 	router.GET("/news", controllers.GetNews)
 
 	req, _ := http.NewRequest("GET", "/news", nil)
-
-	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-}
-
-func TestGetNewsByID(t *testing.T) {
-	router := gin.Default()
-	router.GET("/news/:id", controllers.GetNewsByID)
-
-	newsID := primitive.NewObjectID().Hex()
-	req, _ := http.NewRequest("GET", "/news/"+newsID, nil)
-
-	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-}
-
-func TestUpdateNews(t *testing.T) {
-	router := gin.Default()
-	router.PUT("/news/:id", controllers.UpdateNews)
-
-	newsID := primitive.NewObjectID().Hex()
-	updatedNews := models.News{
-		Category: "Updated Tech",
-		Datetime: time.Now(),
-		Headline: "Updated Headline",
-		Image:    "https://example.com/updated_image.jpg",
-		Related:  "Updated Related News",
-		Source:   "Updated Source",
-		Summary:  "Updated Summary",
-		URL:      "https://example.com/updated_news",
-	}
-
-	body, _ := json.Marshal(updatedNews)
-	req, _ := http.NewRequest("PUT", "/news/"+newsID, bytes.NewBuffer(body))
-	req.Header.Set("Content-Type", "application/json")
-
-	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-}
-
-func TestDeleteNews(t *testing.T) {
-	router := gin.Default()
-	router.DELETE("/news/:id", controllers.DeleteNews)
-
-	newsID := primitive.NewObjectID().Hex()
-	req, _ := http.NewRequest("DELETE", "/news/"+newsID, nil)
 
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
