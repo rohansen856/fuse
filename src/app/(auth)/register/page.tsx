@@ -27,7 +27,7 @@ export default function RegisterPage() {
       <div className="lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
-            <Image src={"/BML.png"} height={70} width={70} alt="BML" />
+            <Image src={"/fuse.jpeg"} height={70} width={70} alt="BML" />
             <h1 className="text-2xl font-semibold tracking-tight">
               Create an account
             </h1>

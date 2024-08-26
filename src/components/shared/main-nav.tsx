@@ -23,10 +23,14 @@ export function MainNav({ items, children }: MainNavProps) {
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="hidden items-center space-x-2 md:flex">
-        <Image src={"/BML.png"} height={70} width={70} alt="BML" />
-        <span className="hidden font-bold underline underline-offset-4 sm:inline-block">
-          Browse Programs
-        </span>
+        <Image
+          src={"/fuse.jpeg"}
+          height={50}
+          width={50}
+          alt="BML"
+          className="rounded-lg"
+        />
+        <span className="hidden font-bold sm:inline-block">Fuse News</span>
       </Link>
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
@@ -54,7 +58,7 @@ export function MainNav({ items, children }: MainNavProps) {
         {showMobileMenu ? (
           <Icons.close />
         ) : (
-          <Image src={"/BML.png"} height={70} width={70} alt="BML" />
+          <Image src={"/fuse.jpeg"} height={50} width={50} alt="BML" />
         )}
         <span className="font-bold">Menu</span>
       </button>

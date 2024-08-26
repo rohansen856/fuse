@@ -13,9 +13,9 @@ import {
 export default async function Programs() {
   return (
     <>
-      <section className="w-full bg-primary/90 p-12" id="live">
+      <section className="w-full bg-primary/90 p-12" id="trending">
         <h3 className="mb-12 mt-24 text-center font-heading text-xl text-primary-foreground sm:text-2xl md:text-3xl lg:text-4xl">
-          Live Programs
+          Trending News
         </h3>
         <div className="flex flex-wrap items-center justify-center gap-24">
           {live.map((i) => (
@@ -108,7 +108,7 @@ export default async function Programs() {
       </section>
       <section className="w-full bg-primary/90 p-12" id="research">
         <h3 className="mb-12 mt-24 text-center font-heading text-xl text-primary-foreground sm:text-2xl md:text-3xl lg:text-4xl">
-          Research Programs
+          Sports News
         </h3>
         <div className="flex flex-wrap items-center justify-center gap-24">
           {research.map((i) => (
@@ -139,7 +139,7 @@ export default async function Programs() {
       </section>
       <section className="w-full bg-primary/90 p-12" id="upcoming">
         <h3 className="mb-12 mt-24 text-center font-heading text-xl text-primary-foreground sm:text-2xl md:text-3xl lg:text-4xl">
-          Upcoming Programs
+          Financial News
         </h3>
         <div className="flex flex-wrap items-center justify-center gap-24">
           {upcoming.map((i) => (

@@ -1,7 +1,7 @@
 export const programData = [
   {
     path: "app-development-bootcamp",
-    name: "App Development Internship Bootcamp Program",
+    name: "Lorem Ipsum Dolor sit amet consentur",
     duration: "4 week bootcamp",
     deadline: "28 Jul 2024",
     start: "5 Aug 2024",
