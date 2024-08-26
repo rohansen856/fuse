@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { ethers, type Contract, type Eip1193Provider } from "ethers"
 
 import { ContractABI, ContractAddress } from "@/lib/contract"
+import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 
 export default function ContractTest() {
@@ -44,17 +45,23 @@ export default function ContractTest() {
   // }
 
   useEffect(() => {
-    contract?.on("NewsPublish", (...props) => {
-      console.log(props)
-    })
+    // contract?.on("NewsPublish", (...props) => {
+    //   console.log(props)
+    // })
     // getVotes()
   }, [contract])
 
-  async function publish(index: number) {
+  async function publish() {
     try {
-      await contract?.publish(index)
+      await contract?.publish(
+        "123",
+        "demi title",
+        "some long content",
+        "12 aug 2024",
+        "random publisher"
+      )
       toast({
-        title: "Voted Successfully",
+        title: "Published Successfully",
       })
     } catch (error) {
       toast({
@@ -68,5 +75,25 @@ export default function ContractTest() {
     }
   }
 
-  return <div></div>
+  async function retrieve() {
+    try {
+      const data = await contract?.getAllFuseNews?.()
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return (
+    <div>
+      {contract ? (
+        <>
+          <Button onClick={publish}>publish</Button>
+          <Button onClick={retrieve}>Get all</Button>
+        </>
+      ) : (
+        <Button onClick={connect}>Connect</Button>
+      )}
+    </div>
+  )
 }
